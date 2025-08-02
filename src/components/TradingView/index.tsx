@@ -14,12 +14,12 @@ export default function TradingViewWidget({ pair }: { pair: string }) {
     script.onload = () => {
       new (window as any).TradingView.widget({
         autosize: true,
-        symbol: `BINANCE:${pair.replace("USD", "USDT")}`,
+        symbol: `BINANCE:${pair.replace("-", "")}`,
         interval: "15",
         theme: "dark",
-        style: "1",
+        style: "9",
         locale: "en",
-        toolbar_bg: "#151A27",
+        toolbar_bg: "#0b1422",
         enable_publishing: false,
         hide_top_toolbar: false,
         withdateranges: true,
@@ -31,6 +31,13 @@ export default function TradingViewWidget({ pair }: { pair: string }) {
           "BB@tv-basicstudies",
           "Volume@tv-basicstudies",
         ],
+        overrides: {
+          "paneProperties.background": "#0b1422",
+          "paneProperties.vertGridProperties.color": "#1e293b",
+          "paneProperties.horzGridProperties.color": "#1e293b",
+          "symbolWatermarkProperties.transparency": 90,
+          "scalesProperties.textColor": "#b0b4c4",
+        }
       });
     };
 

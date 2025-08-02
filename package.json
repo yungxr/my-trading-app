@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@metamask/providers": "^22.1.0",
     "@tsparticles/preset-links": "^3.2.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.8.1",
     "autoprefixer": "^10.4.21",
+    "ethers": "^6.15.0",
     "framer-motion": "^12.23.9",
     "next": "15.4.4",
     "postcss": "^8.5.6",
