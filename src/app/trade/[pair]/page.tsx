@@ -4,22 +4,6 @@ import { useState, useEffect } from "react";
 import TradingView from "@/components/TradingView";
 import { getMarketData } from "@/lib/binance";
 
-interface Window {
-  ethereum?: {
-    isMetaMask?: boolean;
-    request: (args: { method: string; params?: any[] }) => Promise<any>;
-    on: (event: string, callback: (...args: any[]) => void) => void;
-    removeListener: (event: string, callback: (...args: any[]) => void) => void;
-  };
-}
-
-interface WalletState {
-  isConnected: boolean;
-  account: string | null;
-  chainId: string | null;
-  balance: string | null;
-}
-
 export default function TradePage() {
   // Торговые состояния
   const [pair, setPair] = useState("BTC-USDT");
@@ -31,13 +15,8 @@ export default function TradePage() {
   const [leverage, setLeverage] = useState(10);
   const [amount, setAmount] = useState("");
 
-  // Состояния кошелька
-  const [wallet, setWallet] = useState<WalletState>({
-    isConnected: false,
-    account: null,
-    chainId: null,
-    balance: null,
-  });
+  // Состояния кошелька (упрощенные)
+  const [walletConnected, setWalletConnected] = useState(false);
 
   // Стейкинг состояния
   const [stakingValue, setStakingValue] = useState(0);
@@ -64,125 +43,10 @@ export default function TradePage() {
     return () => clearInterval(interval);
   }, [pair, activeTab]);
 
-  // Проверка подключения кошелька
-  useEffect(() => {
-    checkWalletConnection();
-
-    const handleAccountsChanged = (accounts: string[]) => {
-      if (accounts.length === 0) {
-        disconnectWallet();
-      } else {
-        setWallet((prev) => ({
-          ...prev,
-          account: accounts[0],
-        }));
-      }
-    };
-
-    const handleChainChanged = (_chainId: string) => {
-      const chainId = _chainId;
-      setWallet((prev) => ({
-        ...prev,
-        chainId,
-      }));
-    };
-
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", handleAccountsChanged);
-      window.ethereum.on("chainChanged", handleChainChanged);
-
-      return () => {
-        window.ethereum?.removeListener(
-          "accountsChanged",
-          handleAccountsChanged
-        );
-        window.ethereum?.removeListener("chainChanged", handleChainChanged);
-      };
-    }
-  }, []);
-
-  // Получение баланса при изменении аккаунта
-  useEffect(() => {
-    if (!wallet.isConnected || !wallet.account) return;
-
-    const fetchBalance = async () => {
-      try {
-        const balance = await window.ethereum!.request({
-          method: "eth_getBalance",
-          params: [wallet.account, "latest"],
-        });
-        setWallet((prev) => ({
-          ...prev,
-          balance: (parseInt(balance, 16) / 1e18).toFixed(4) + " ETH",
-        }));
-      } catch (error) {
-        console.error("Error fetching balance:", error);
-      }
-    };
-
-    fetchBalance();
-  }, [wallet.isConnected, wallet.account]);
-
-  const checkWalletConnection = async () => {
-    if (!window.ethereum) return;
-
-    try {
-      const accounts: string[] = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      if (accounts.length > 0) {
-        const chainId: string = await window.ethereum.request({
-          method: "eth_chainId",
-        });
-        setWallet({
-          isConnected: true,
-          account: accounts[0],
-          chainId,
-          balance: null,
-        });
-      }
-    } catch (error) {
-      console.error("Error checking wallet connection:", error);
-    }
-  };
-
-  const connectWallet = async () => {
-    if (!window.ethereum) {
-      alert("Please install MetaMask!");
-      window.open("https://metamask.io/download.html", "_blank");
-      return;
-    }
-
-    try {
-      const accounts: string[] = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      const chainId: string = await window.ethereum.request({
-        method: "eth_chainId",
-      });
-
-      setWallet({
-        isConnected: true,
-        account: accounts[0],
-        chainId,
-        balance: null,
-      });
-    } catch (error) {
-      console.error("Error connecting wallet:", error);
-      if ((error as Error).message.includes("User rejected the request")) {
-        alert("Please connect your wallet to continue");
-      }
-    }
-  };
-
-  const disconnectWallet = () => {
-    setWallet({
-      isConnected: false,
-      account: null,
-      chainId: null,
-      balance: null,
-    });
+  const connectWallet = () => {
+    // Пустая функция, которую вы сможете реализовать позже
+    console.log("Connect wallet button clicked");
+    // Здесь будет ваша реализация подключения кошелька
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -193,11 +57,11 @@ export default function TradePage() {
   };
 
   const handleStake = () => {
-    if (!wallet.isConnected) {
+    if (!walletConnected) {
       connectWallet();
       return;
     }
-    console.log("Staking initiated for", wallet.account);
+    console.log("Staking initiated");
     // Здесь будет логика стейкинга
   };
 
@@ -261,33 +125,18 @@ export default function TradePage() {
     },
   ];
 
-  const getNetworkName = (chainId: string | null) => {
-    if (!chainId) return "Unknown";
-    switch (chainId) {
-      case "0x1":
-        return "Ethereum";
-      case "0x89":
-        return "Polygon";
-      case "0x38":
-        return "BNB Chain";
-      case "0xa86a":
-        return "Avalanche";
-      default:
-        return `Chain ID: ${chainId}`;
-    }
+  const getNetworkName = () => {
+    return "Not connected";
   };
 
-  const formatAddress = (address: string | null) => {
-    if (!address) return "";
-    return `${address.substring(0, 6)}...${address.substring(
-      address.length - 4
-    )}`;
+  const formatAddress = () => {
+    return "0x000...0000";
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#10192b] to-[#18192d] text-white">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-black via-[#10192b] to-[#18192d] text-white">
       {/* Main Trading Area */}
-      <div className="flex h-[calc(100vh-73px)]">
+      <div className="flex flex-1 h-[calc(100vh-73px)]">
         {/* Left Sidebar */}
         <div className="w-64 bg-[#0b1422]/80 border-r border-[#1E293B] p-4 overflow-y-auto">
           <div className="mb-6">
@@ -441,68 +290,10 @@ export default function TradePage() {
                   </div>
                 </div>
               </div>
-
-              {/* Timeframe Selector */}
-              <div className="flex items-center border-b border-[#1E293B] bg-[#0b1422]/80 px-4">
-                {["1m", "5m", "15m", "1h", "4h", "1D"].map((tf) => (
-                  <button
-                    key={tf}
-                    className="px-3 py-2 text-sm text-[#b0b4c4] hover:text-white"
-                  >
-                    {tf}
-                  </button>
-                ))}
-                <button className="ml-auto px-3 py-2 text-sm text-[#b0b4c4] hover:text-white">
-                  Indicators
-                </button>
-              </div>
-
               {/* TradingView Chart */}
               <div className="flex-1 bg-[#0F172A] relative">
                 <TradingView pair={pair} />
               </div>
-
-              {/* Price Info Bar */}
-              <div className="flex items-center justify-between p-2 border-t border-[#1E293B] bg-[#0b1422]/80 text-sm">
-                <div className="text-[#b0b4c4]">
-                  {pair.replace("-", "/")} - ELFI
-                  <br />
-                  O119994.80 H119996.22 L119901.77 C119964.87
-                  <br />
-                  +4.88 (+0.00%)
-                </div>
-                <div className="flex items-center space-x-2">
-                  <button className="px-3 py-1 bg-[#1E293B] rounded text-[#b0b4c4] hover:text-white">
-                    Save
-                  </button>
-                </div>
-              </div>
-
-              {/* Price Scale */}
-              <div className="grid grid-cols-5 gap-2 p-2 border-t border-[#1E293B] bg-[#0b1422]/80 text-sm">
-                {[
-                  "115960.00",
-                  "116000.00",
-                  "115600.00",
-                  "115200.00",
-                  "114800.00",
-                  "114400.00",
-                  "115944.87",
-                  "113600.00",
-                  "113200.00",
-                ].map((price) => (
-                  <div key={price} className="text-[#b0b4c4] text-right">
-                    {price}
-                  </div>
-                ))}
-              </div>
-
-              {/* Time Scale */}
-              <div className="flex justify-between px-4 py-2 border-t border-[#1E293B] bg-[#0b1422]/80 text-sm text-[#b0b4c4]">
-                <span>06:00</span>
-                <span>08:00</span>
-              </div>
-
               {/* Bottom Navigation */}
               <div className="flex border-t border-[#1E293B] bg-[#0b1422]">
                 {[
@@ -521,7 +312,7 @@ export default function TradePage() {
               </div>
 
               {/* Connect Wallet Banner */}
-              {!wallet.isConnected && (
+              {!walletConnected && (
                 <div className="p-4 bg-[#0b1422] border-t border-[#1E293B] text-center">
                   <button
                     onClick={connectWallet}
@@ -564,7 +355,7 @@ export default function TradePage() {
                   </div>
                 </div>
 
-                {!wallet.isConnected ? (
+                {!walletConnected ? (
                   <button
                     onClick={connectWallet}
                     className="bg-gradient-to-r from-[#0853fc] to-[#122780] px-6 py-3 rounded-lg font-semibold text-white w-full"
@@ -587,13 +378,11 @@ export default function TradePage() {
               <div className="bg-[#0b1422]/80 rounded-xl p-6 border border-[#1E293B]">
                 <h2 className="text-xl font-bold mb-6">Available Pools</h2>
 
-                {wallet.chainId !== "0x1" &&
-                  wallet.chainId !== "0x89" &&
-                  wallet.isConnected && (
-                    <div className="bg-red-500/20 text-red-400 p-3 rounded-lg text-sm mb-4">
-                      Please switch to Ethereum Mainnet or Polygon for staking
-                    </div>
-                  )}
+                {walletConnected && (
+                  <div className="bg-red-500/20 text-red-400 p-3 rounded-lg text-sm mb-4">
+                    Please switch to Ethereum Mainnet or Polygon for staking
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {stakingPools.map((pool, index) => (
@@ -632,14 +421,14 @@ export default function TradePage() {
 
                       <button
                         className={`w-full py-2 rounded-lg font-medium ${
-                          wallet.isConnected
+                          walletConnected
                             ? "bg-blue-600 hover:bg-blue-700"
                             : "bg-gray-600 cursor-not-allowed"
                         }`}
-                        disabled={!wallet.isConnected}
+                        disabled={!walletConnected}
                         onClick={handleStake}
                       >
-                        {wallet.isConnected ? "Stake Now" : "Connect Wallet"}
+                        {walletConnected ? "Stake Now" : "Connect Wallet"}
                       </button>
                     </div>
                   ))}
@@ -743,7 +532,7 @@ export default function TradePage() {
               <div className="mb-4">
                 <div className="flex justify-between text-[#b0b4c4] text-sm mb-2">
                   <span>Use</span>
-                  <span>{wallet.balance || "0.0 ETH"}</span>
+                  <span>0.0 ETH</span>
                 </div>
                 <input
                   type="number"
@@ -785,7 +574,7 @@ export default function TradePage() {
                     ? "bg-green-500 hover:bg-green-600"
                     : "bg-red-500 hover:bg-red-600"
                 } text-white mb-6`}
-                disabled={!wallet.isConnected}
+                disabled={!walletConnected}
               >
                 {positionType === "long" ? "Long" : "Short"}{" "}
                 {pair.split("-")[0]}
@@ -800,7 +589,7 @@ export default function TradePage() {
                   <span>ETH</span>
                 </div>
                 <div className="flex justify-between text-[#b0b4c4] text-sm py-2">
-                  <span>Long Q1 Cap</span>
+                  <span>Long OI Cap</span>
                   <span>100,000.00 USD</span>
                 </div>
               </div>
@@ -808,27 +597,23 @@ export default function TradePage() {
           ) : activeTab === "earn" ? (
             /* Панель информации для стейкинга */
             <div className="space-y-6">
-              {wallet.isConnected && (
+              {walletConnected && (
                 <div className="bg-[#0F172A] p-4 rounded-lg border border-[#1E293B]">
                   <h3 className="text-lg font-bold mb-3">Wallet Info</h3>
                   <div className="space-y-3">
                     <div>
                       <div className="text-[#B0B4C4] text-xs">Address</div>
                       <div className="text-sm font-mono break-all">
-                        {wallet.account}
+                        {formatAddress()}
                       </div>
                     </div>
                     <div>
                       <div className="text-[#B0B4C4] text-xs">Network</div>
-                      <div className="text-sm">
-                        {getNetworkName(wallet.chainId)}
-                      </div>
+                      <div className="text-sm">{getNetworkName()}</div>
                     </div>
                     <div>
                       <div className="text-[#B0B4C4] text-xs">Balance</div>
-                      <div className="text-sm">
-                        {wallet.balance || "Loading..."}
-                      </div>
+                      <div className="text-sm">0.0 ETH</div>
                     </div>
                   </div>
                 </div>
@@ -858,7 +643,7 @@ export default function TradePage() {
                 </div>
               </div>
 
-              {wallet.isConnected && (
+              {walletConnected && (
                 <button
                   className="w-full py-3 bg-gradient-to-r from-[#0853fc] to-[#122780] rounded-lg font-bold text-white"
                   onClick={handleStake}
