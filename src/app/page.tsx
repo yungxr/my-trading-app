@@ -1,696 +1,422 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaTelegramPlane, FaTwitter, FaDiscord } from "react-icons/fa";
-import Particles from "@tsparticles/react";
-import { loadFull } from "tsparticles";
-import type { Engine } from "@tsparticles/engine";
-
-const initialTokens = [
-  { symbol: "BTC-USD", price: 0, change: 0 },
-  { symbol: "ETH-USD", price: 0, change: 0 },
-  { symbol: "SOL-USD", price: 0, change: 0 },
-];
-
-const CRYPTO_IDS = ["bitcoin", "ethereum", "solana"];
-
-function getRandomChange() {
-  return (Math.random() * 2 - 1) / 100;
-}
-
-const ParticlesBackground = () => {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
-
-  return (
-    <Particles
-      id="tsparticles"
-      init={particlesInit}
-      options={{
-        fullScreen: { enable: false, zIndex: -1 },
-        background: {
-          color: {
-            value: "transparent",
-          },
-        },
-        fpsLimit: 120,
-        interactivity: {
-          events: {
-            onClick: {
-              enable: true,
-              mode: "push",
-            },
-            onHover: {
-              enable: true,
-              mode: "repulse",
-            },
-          },
-          modes: {
-            push: {
-              quantity: 4,
-            },
-            repulse: {
-              distance: 100,
-              duration: 0.4,
-            },
-          },
-        },
-        particles: {
-          color: {
-            value: ["#3a86ff", "#8338ec", "#ff006e", "#fb5607", "#ffbe0b"],
-          },
-          links: {
-            color: "#3a86ff",
-            distance: 150,
-            enable: true,
-            opacity: 0.3,
-            width: 1,
-          },
-          move: {
-            direction: "none",
-            enable: true,
-            outModes: {
-              default: "bounce",
-            },
-            random: false,
-            speed: 2,
-            straight: false,
-          },
-          number: {
-            density: {
-              enable: true,
-            },
-            value: 80,
-          },
-          opacity: {
-            value: 0.5,
-          },
-          shape: {
-            type: "circle",
-          },
-          size: {
-            value: { min: 1, max: 3 },
-          },
-        },
-        detectRetina: true,
-      }}
-    />
-  );
-};
-
-const AnimatedNumber = ({
-  value,
-  fraction = 2,
-}: {
-  value: number;
-  fraction?: number;
-}) => {
-  const [display, setDisplay] = useState(value);
-
-  useEffect(() => {
-    let frameId: number;
-    let start: number | null = null;
-    const duration = 450;
-    const from = display;
-    const to = value;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = timestamp - start;
-      const ratio = Math.min(progress / duration, 1);
-      const current = from + (to - from) * ratio;
-      setDisplay(current);
-      if (progress < duration) {
-        frameId = requestAnimationFrame(step);
-      }
-    };
-    frameId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frameId);
-  }, [value]);
-
-  return (
-    <>
-      {display.toLocaleString(undefined, {
-        minimumFractionDigits: fraction,
-        maximumFractionDigits: fraction,
-      })}
-    </>
-  );
-};
+import {
+  ArrowUpRight,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+  Infinity,
+  Globe,
+  ChevronDown,
+  Zap,
+  Activity,
+  Award,
+  Clock,
+  Eye,
+  Check,
+} from "lucide-react";
 
 export default function Home() {
-  const [tokens, setTokens] = useState(initialTokens);
-  const [tvl, setTvl] = useState(1_285_000);
-  const [users, setUsers] = useState(1845);
-  const [volume, setVolume] = useState(604_910);
-
-  const fetchPrices = async () => {
-    try {
-      const response = await fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${CRYPTO_IDS.join(
-          ","
-        )}&vs_currencies=usd&include_24hr_change=true`
-      );
-      const data = await response.json();
-
-      setTokens([
-        {
-          symbol: "BTC-USD",
-          price: data.bitcoin.usd ?? 0,
-          change: data.bitcoin.usd_24h_change ?? 0,
-        },
-        {
-          symbol: "ETH-USD",
-          price: data.ethereum.usd ?? 0,
-          change: data.ethereum.usd_24h_change ?? 0,
-        },
-        {
-          symbol: "SOL-USD",
-          price: data.solana.usd ?? 0,
-          change: data.solana.usd_24h_change ?? 0,
-        },
-      ]);
-    } catch (error) {
-      console.error("Error fetching prices:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchPrices();
-    const intervalId = setInterval(fetchPrices, 60_000);
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTvl((t) => t + Math.floor(Math.random() * 800 - 400));
-      setUsers((u) => u + Math.floor(Math.random() * 4 - 2));
-      setVolume((v) => v + Math.floor(Math.random() * 8000 - 4000));
-    }, 4500);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-[#10192b] to-[#18192d] font-sans flex flex-col relative overflow-hidden">
-      {/* Particles Background */}
-      <div className="absolute inset-0 z-0">
-        <ParticlesBackground />
+    <div className="relative min-h-screen">
+      {/* Fixed Background Layer */}
+      <div className="fixed inset-0 -z-50">
+        <Image
+          src="/images/bg.jpg"
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={90}
+          className="opacity-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#191633]/90 via-black/85 to-[#2b174a]/90" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-[#a67cf05b] backdrop-blur-[1px]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Header */}
-        <header className="w-full bg-black/80 backdrop-blur border-b border-[#151A27] py-5">
-          <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
-            <span className="text-2xl font-black text-white tracking-widest select-none">
-              DigitalVault
-            </span>
-            <nav className="flex gap-6 items-center text-lg">
-              <a
-                href="#"
-                className="text-[#B0B4C4] hover:text-blue-400 transition"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="text-[#B0B4C4] hover:text-blue-400 transition"
-              >
-                Trade
-              </a>
-              <a
-                href="#"
-                className="text-[#B0B4C4] hover:text-blue-400 transition"
-              >
-                Earn
-              </a>
-              <a
-                href="#"
-                className="text-[#B0B4C4] hover:text-blue-400 transition"
-              >
-                Docs
-              </a>
-              <motion.a
-                whileTap={{ scale: 0.96 }}
-                href="#"
-                className="ml-6 bg-gradient-to-r from-[#0853fc] to-[#122780] px-6 py-2 rounded-lg shadow-lg font-semibold text-white hover:from-[#1c419e] hover:to-[#1785e6] transition"
-              >
-                Launch App
-              </motion.a>
-            </nav>
-          </div>
-        </header>
+      {/* Header */}
+      <header className="relative z-30 w-full pt-9 pb-7 px-6 lg:px-24 flex items-center justify-between">
+        <span className="font-black text-2xl lg:text-3xl bg-gradient-to-tr from-fuchsia-400 via-purple-300 to-white bg-clip-text text-transparent">
+          Digital Vault
+        </span>
+        <button className="bg-gradient-to-tr from-purple-600 via-fuchsia-400 to-indigo-500 px-6 py-2 rounded-2xl font-bold shadow-lg hover:scale-105 transition">
+          Launch App
+        </button>
+      </header>
 
-        {/* Hero Section */}
-        <section className="w-full max-w-7xl mx-auto flex flex-col md:flex-row mt-16 md:mt-20 px-6 gap-14 md:gap-20 items-center">
-          <div className="flex-1 min-w-[300px]">
-            <motion.h1
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-7"
-            >
-              The{" "}
-              <span className="bg-gradient-to-tr from-blue-400 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Decentralized Derivatives Exchange
-              </span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.13 }}
-              className="text-xl text-[#B0B4C4] mb-10 max-w-xl"
-            >
-              Trade with cross margin, high leverage and deep liquidity.
-              Security-first, DeFi protocol with the speed and flexibility you
-              expect.
-            </motion.p>
-            <div className="flex flex-wrap items-center gap-6">
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                className="bg-gradient-to-r from-[#0853fc] to-[#122780] px-8 py-3 rounded-lg text-lg font-bold shadow-lg text-white hover:from-[#183094] hover:to-[#0c4e87] transition"
-                onClick={() => alert("Launch App")}
-              >
-                Launch App
-              </motion.button>
-              <button
-                className="border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-lg text-lg font-bold shadow hover:bg-[#091d43] transition"
-                onClick={() => alert("Docs")}
-              >
-                Docs
-              </button>
-            </div>
-            <div className="flex gap-8 items-center mt-10">
-              <a
-                href="#"
-                className="text-[#b0b4c4] hover:text-blue-500 transition text-2xl"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href="#"
-                className="text-[#b0b4c4] hover:text-blue-400 transition text-2xl"
-              >
-                <FaTelegramPlane />
-              </a>
-              <a
-                href="#"
-                className="text-[#b0b4c4] hover:text-[#6569e6] transition text-2xl"
-              >
-                <FaDiscord />
-              </a>
-            </div>
-          </div>
-
-          {/* Stats and Tokens */}
-          <div className="flex-1 flex flex-col gap-7 w-full max-w-lg items-center">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="bg-gradient-to-br from-[#0b1422] to-[#181f32] rounded-2xl py-7 px-4 flex flex-col items-center shadow border border-[#1e2745] min-w-[140px]">
-                <div className="text-[#7e83a7] font-medium text-sm mb-1">TVL</div>
-                <motion.div
-                  animate={{ scale: [1, 1.07, 1], opacity: [1, 0.88, 1] }}
-                  transition={{ repeat: Infinity, duration: 2.5 }}
-                  className="font-extrabold text-2xl text-blue-300 tabular-nums whitespace-nowrap"
-                >
-                  $<AnimatedNumber value={tvl} fraction={0} />
-                </motion.div>
-              </div>
-              <div className="bg-gradient-to-br from-[#0b1422] to-[#181f32] rounded-2xl py-7 px-4 flex flex-col items-center shadow border border-[#1e2745] min-w-[140px]">
-                <div className="text-[#7e83a7] font-medium text-sm mb-1">
-                  Users
-                </div>
-                <motion.div
-                  animate={{ scale: [1, 1.07, 1], opacity: [1, 0.9, 1] }}
-                  transition={{ repeat: Infinity, duration: 2.5, delay: 1.2 }}
-                  className="font-extrabold text-2xl text-purple-200 tabular-nums whitespace-nowrap"
-                >
-                  <AnimatedNumber value={users} fraction={0} />
-                </motion.div>
-              </div>
-              <div className="bg-gradient-to-br from-[#0b1422] to-[#181f32] rounded-2xl py-7 px-4 flex flex-col items-center shadow border border-[#1e2745] min-w-[140px]">
-                <div className="text-[#7e83a7] font-medium text-sm mb-1">
-                  Volume
-                </div>
-                <motion.div
-                  animate={{ scale: [1, 1.07, 1], opacity: [1, 0.9, 1] }}
-                  transition={{ repeat: Infinity, duration: 2.5, delay: 0.7 }}
-                  className="font-extrabold text-2xl text-pink-200 tabular-nums whitespace-nowrap"
-                >
-                  $<AnimatedNumber value={volume} fraction={0} />
-                </motion.div>
-              </div>
-            </div>
-
-            {/* Token Cards */}
-            <div className="mt-7">
-              <div className="flex gap-4 overflow-x-auto pb-2">
-                {tokens.map((token) => (
-                  <motion.div
-                    key={token.symbol}
-                    whileHover={{ y: -6 }}
-                    transition={{ type: "spring", stiffness: 220 }}
-                    className="min-w-[150px] h-[130px] bg-gradient-to-bl from-[#101528] to-[#23273B] border border-[#19264c] rounded-xl p-4 flex flex-col items-center justify-between shadow cursor-pointer"
-                  >
-                    <span className="text-lg font-semibold text-white truncate w-full text-center">
-                      {token.symbol}
-                    </span>
-                    <span className="font-mono text-xl text-blue-200 truncate w-full text-center">
-                      <AnimatedNumber
-                        value={token.price}
-                        fraction={token.price > 1 ? 2 : 5}
-                      />
-                    </span>
-                    <span
-                      className={`text-base font-bold ${
-                        token.change >= 0 ? "text-green-400" : "text-red-400"
-                      } truncate w-full text-center`}
-                    >
-                      {token.change >= 0 ? "+" : ""}
-                      {token.change.toFixed(2)}%
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* --- YIELD POOLS --- */}
-        <section className="w-full max-w-7xl mx-auto mt-24 px-6">
-          <div className="bg-gradient-to-br from-[#151A27] to-[#171b2b] border border-[#212d50] rounded-2xl p-8 shadow-lg">
-            <h2 className="text-2xl font-bold text-white mb-6">
-              Ultra Yield Pool
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* BTC Pool */}
-              <div className="relative bg-gradient-to-b from-[#0f172a] to-[#1e293b] border border-[#1e3a8a] rounded-xl p-5 group overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                  <span className="text-7xl font-bold">₿</span>
-                </div>
-                <div className="flex justify-between items-center mb-4 relative z-10">
-                  <span className="text-green-400 font-bold text-lg">
-                    +500% APR
-                  </span>
-                  <span className="text-white font-semibold flex items-center gap-2">
-                    <span className="text-yellow-500">₿</span> BTC
-                  </span>
-                </div>
-                <p className="text-[#b0b4c4] mb-5 relative z-10">Supply WBTC</p>
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition relative z-10">
-                  Supply
-                </button>
-              </div>
-
-              {/* ETH Pool */}
-              <div className="relative bg-gradient-to-b from-[#0f172a] to-[#1e293b] border border-[#1e3a8a] rounded-xl p-5 group overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                  <span className="text-7xl font-bold">⟠</span>
-                </div>
-                <div className="flex justify-between items-center mb-4 relative z-10">
-                  <span className="text-green-400 font-bold text-lg">
-                    +300% APR
-                  </span>
-                  <span className="text-white font-semibold flex items-center gap-2">
-                    <span className="text-purple-400">⟠</span> ETH
-                  </span>
-                </div>
-                <p className="text-[#b0b4c4] mb-5 relative z-10">
-                  Supply ETH/WETH
-                </p>
-                <button
-                  className="w-full bg-blue-600/50 text-white/70 font-medium py-2 px-4 rounded-lg transition cursor-not-allowed relative z-10"
-                  disabled
-                >
-                  Supply
-                </button>
-                <span className="absolute right-4 text-yellow-400 text-sm z-10">
-                  In Progress
-                </span>
-              </div>
-
-              {/* USD Pool */}
-              <div className="relative bg-gradient-to-b from-[#0f172a] to-[#1e293b] border border-[#1e3a8a] rounded-xl p-5 group overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                  <span className="text-7xl font-bold">$</span>
-                </div>
-                <div className="flex justify-between items-center mb-4 relative z-10">
-                  <span className="text-green-400 font-bold text-lg">
-                    +100% APR
-                  </span>
-                  <span className="text-white font-semibold flex items-center gap-2">
-                    <span className="text-blue-300">$</span> USD
-                  </span>
-                </div>
-                <p className="text-[#b0b4c4] mb-5 relative z-10">Supply USDC</p>
-                <button
-                  className="w-full bg-blue-600/50 text-white/70 font-medium py-2 px-4 rounded-lg transition cursor-not-allowed relative z-10"
-                  disabled
-                >
-                  Supply
-                </button>
-                <span className="absolute right-4 text-yellow-400 text-sm z-10">
-                  In Progress
-                </span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Promo Banner */}
-        <section className="max-w-7xl w-full mx-auto mt-24 px-6">
-          <motion.div
-            initial={{ scale: 0.98, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, type: "spring" }}
-            className="w-full bg-gradient-to-r from-[#111629] to-[#202748] border border-[#1a2445] rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-center px-10 py-9 gap-8"
-          >
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-white">
-                Get your exclusive welcome reward!
-              </div>
-              <div className="text-[#adb5e3] mt-2 text-lg">
-                Connect your wallet and start trading to receive up to{" "}
-                <span className="font-bold text-blue-300">4,000 USDC</span> as
-                bonus for early users.
-              </div>
-            </div>
-            <motion.button
-              whileTap={{ scale: 0.96 }}
-              className="mt-5 md:mt-0 bg-gradient-to-r from-[#0b76ed] to-[#1047a2] px-10 py-4 rounded-lg text-white text-lg font-bold shadow-lg hover:bg-gradient-to-l hover:from-[#133c8d] hover:to-[#43a3f5] transition"
-              onClick={() => alert("Connect wallet")}
-            >
-              Connect Wallet
-            </motion.button>
-          </motion.div>
-        </section>
-
-        {/* Features */}
-        <section className="w-full max-w-7xl mx-auto grid md:grid-cols-3 gap-7 mt-24 mb-24 px-6">
-          {[
-            {
-              title: "Cross-Margin System",
-              desc: "Use any asset as margin, maximize capital utilization and trade with leverage.",
-            },
-            {
-              title: "Ultra-Low Liquidation Risk",
-              desc: "Offset PnL, reduce margin calls, flexible position management and protection strategies.",
-            },
-            {
-              title: "Liquidity & Security",
-              desc: "Deep on-chain liquidity pools, low slippage and institutional Web3-grade security.",
-            },
-          ].map((f, idx) => (
+      {/* Main Content */}
+      <div className="relative z-20 max-w-7xl mx-auto px-4 py-12">
+        {/* Updated Hero Section - Split Layout */}
+        <section className="pt-8 pb-24 px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text Content */}
             <motion.div
-              key={f.title}
-              whileHover={{ y: -7, scale: 1.03 }}
-              className="bg-gradient-to-br from-[#151A27] to-[#171b2b] border border-[#212d50] rounded-2xl p-9 shadow-lg"
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="flex flex-col"
             >
-              <div className="text-lg font-bold text-blue-300 mb-3">
-                {f.title}
+              <h1 className="text-4xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-tr from-fuchsia-300 via-indigo-300 to-white mb-6 leading-tight">
+                Decentralized Perpetual Exchange
+              </h1>
+              <p className="text-xl text-indigo-100/80 mb-8">
+                Isolated & Cross Margin, High-Yield, Security DEX, Up to 1000x
+              </p>
+              <div className="flex gap-4">
+                <button className="bg-gradient-to-tr from-purple-600 via-fuchsia-400 to-indigo-500 px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">
+                  Launch App
+                </button>
+                <button className="bg-white/10 hover:bg-white/20 border border-white/20 px-8 py-3 rounded-xl font-medium transition-all">
+                  Learn More
+                </button>
               </div>
-              <div className="text-[#b0b4c4]">{f.desc}</div>
             </motion.div>
-          ))}
-        </section>
 
-        {/* Maximum Collateral Section */}
-        <section className="w-full max-w-7xl mx-auto mt-24 px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-[#151A27] to-[#1a2038] border border-[#212d50] rounded-2xl p-10 shadow-xl overflow-hidden"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              {/* Maximum Collateral Card */}
-              <motion.div
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="bg-gradient-to-b from-[#0f172a]/60 to-[#1e293b]/60 border border-[#1e3a8a]/30 rounded-xl p-6 shadow-lg hover:border-[#1e3a8a]/60 transition-all flex"
-              >
-                <div className="mr-6 flex-shrink-0">
-                  <div className="bg-blue-500/20 p-4 rounded-lg">
-                    <svg
-                      className="w-8 h-8 text-blue-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Maximum Collateral
-                  </h3>
-                  <p className="text-[#b0b4c4]">
-                    We support a wide range of collateral deposits for margin
-                    trading, allowing you to trade any market with any asset.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Minimized Risks Card */}
-              <motion.div
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="bg-gradient-to-b from-[#0f172a]/60 to-[#1e293b]/60 border border-[#1e3a8a]/30 rounded-xl p-6 shadow-lg hover:border-[#1e3a8a]/60 transition-all flex"
-              >
-                <div className="mr-6 flex-shrink-0">
-                  <div className="bg-green-500/20 p-4 rounded-lg">
-                    <svg
-                      className="w-8 h-8 text-green-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Minimized Liquidation Risks
-                  </h3>
-                  <p className="text-[#b0b4c4]">
-                    Offset P&L and volatility risks to lower costs and reduce
-                    liquidation risks, enabling more robust strategies.
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Right Column - Stats */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="grid grid-cols-1 gap-6"
+            >
               {[
-                {
-                  icon: (
-                    <svg
-                      className="w-8 h-8 text-purple-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                      />
-                    </svg>
-                  ),
-                  title: "High Liquidity",
-                  desc: "ELFI offers high liquidity, low slippage, and fast trading. Staking assets like ETH or BTC to earn rewards.",
+                { 
+                  label: "Trading Volume", 
+                  value: "$1,862,768,218", 
+                  icon: <TrendingUp className="text-fuchsia-300" size={24} /> 
                 },
-                {
-                  icon: (
-                    <svg
-                      className="w-8 h-8 text-yellow-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  ),
-                  title: "High Yield",
-                  desc: "Earn yield on collateral through lending and share fee revenues.",
+                { 
+                  label: "FYL", 
+                  value: "$6,701,610", 
+                  icon: <Users className="text-indigo-200" size={24} /> 
                 },
-                {
-                  icon: (
-                    <svg
-                      className="w-8 h-8 text-blue-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  ),
-                  title: "Transparent",
-                  desc: "On-chain, transparent transactions with full user control and secure authorization.",
+                { 
+                  label: "Users", 
+                  value: "34,198", 
+                  icon: <Globe className="text-purple-300" size={24} /> 
                 },
-              ].map((feature, index) => (
+              ].map((stat, i) => (
                 <motion.div
-                  key={index}
+                  key={i}
                   whileHover={{ y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="bg-gradient-to-b from-[#0f172a]/60 to-[#1e293b]/60 border border-[#1e3a8a]/30 rounded-xl p-6 shadow-lg hover:border-[#1e3a8a]/60 transition-all flex items-start"
+                  className="bg-white/10 border border-white/10 rounded-xl p-6 backdrop-blur-sm"
                 >
-                  <div className="mr-4 mt-1 flex-shrink-0">
-                    <div
-                      className="bg-opacity-20 p-3 rounded-lg"
-                      style={{
-                        backgroundColor:
-                          index === 0
-                            ? "rgba(167, 139, 250, 0.2)"
-                            : index === 1
-                            ? "rgba(251, 191, 36, 0.2)"
-                            : "rgba(96, 165, 250, 0.2)",
-                      }}
-                    >
-                      {feature.icon}
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded-lg bg-white/5">
+                      {stat.icon}
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-[#b0b4c4]">{feature.desc}</p>
+                    <div>
+                      <div className="text-sm text-indigo-100/80">{stat.label}</div>
+                      <div className="text-2xl font-bold text-fuchsia-100 mt-1">
+                        {stat.value}
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </section>
 
-        <footer className="w-full py-8 md:py-12 text-center text-[#858ba5] text-base border-t border-[#1b2032] bg-[#03040c]">
-          <span>ELFi DEX &copy; 2025 — Demo by your request</span>
-        </footer>
+        {/* Maximum Collateral for Margin Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-7xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-3xl font-bold mb-8 bg-gradient-to-r from-fuchsia-300 to-indigo-300 bg-clip-text text-transparent"
+            >
+              Maximum Collateral for Margin
+            </motion.h2>
+            
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg text-indigo-100/80 mb-12 max-w-3xl"
+            >
+              We support a wide range of collateral deposits for margin trading, allowing you to trade any market with any asset.
+            </motion.p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { 
+                  icon: <Activity className="text-purple-400" size={24} />, 
+                  title: "High Liquidity", 
+                  desc: "ELF offers high liquidity, low slippage, and fast trading. Staking assets like ETH or BTC to earn rewards." 
+                },
+                { 
+                  icon: <Award className="text-yellow-300" size={24} />, 
+                  title: "High Yield", 
+                  desc: "Earn yield on collateral through lending and share fee revenues." 
+                },
+                { 
+                  icon: <ShieldCheck className="text-emerald-400" size={24} />, 
+                  title: "Minimized Risks", 
+                  desc: "Offset P&L and volatility risks to lower costs and reduce liquidation risks." 
+                },
+                { 
+                  icon: <Zap className="text-fuchsia-300" size={24} />, 
+                  title: "Fast Trade", 
+                  desc: "Instant order execution with automatic gas fee deduction for seamless trading." 
+                },
+                { 
+                  icon: <Eye className="text-indigo-300" size={24} />, 
+                  title: "Transparent", 
+                  desc: "On-chain, transparent transactions with full user control and secure authorization." 
+                },
+              ].map((feature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-fuchsia-400/30 transition-colors"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-4">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                  <p className="text-indigo-100/70">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Two Columns Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Yield Pools */}
+          <section className="lg:col-span-2">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-2xl font-bold mb-6 bg-gradient-to-r from-fuchsia-300 to-indigo-300 bg-clip-text text-transparent"
+            >
+              Ultra Yield Pool
+            </motion.h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                {
+                  token: "BTC",
+                  symbol: "₿",
+                  desc: "Supply MERC",
+                  apr: "14.44% APR",
+                  colors: "from-yellow-400 via-orange-400 to-purple-400",
+                },
+                {
+                  token: "ETH",
+                  symbol: "Ξ",
+                  desc: "Supply FITWATER",
+                  apr: "5.18% APR",
+                  colors: "from-purple-500 via-blue-400 to-fuchsia-400",
+                },
+                {
+                  token: "USD",
+                  symbol: "U",
+                  desc: "Supply MERC",
+                  apr: "9.17% APR",
+                  colors: "from-sky-400 via-blue-400 to-indigo-400",
+                },
+              ].map((pool, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  className={`bg-gradient-to-br ${pool.colors} bg-opacity-10 border border-white/10 rounded-xl p-5 cursor-pointer`}
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="text-xl font-bold">{pool.token}</div>
+                      <div className="text-sm text-indigo-100/80 mt-1">
+                        {pool.desc}
+                      </div>
+                    </div>
+                    <div className="text-3xl font-black">{pool.symbol}</div>
+                  </div>
+                  <div className="mt-4 text-lg font-medium">{pool.apr}</div>
+                  <button className="mt-4 w-full py-2 bg-white/5 border border-white/10 rounded-lg text-sm flex items-center justify-center gap-1 hover:bg-white/10 transition">
+                    Supply <ArrowUpRight size={14} />
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Right Column - Market Prices */}
+          <section>
+            <motion.h3
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-xl font-bold mb-6 bg-gradient-to-r from-fuchsia-300 to-indigo-300 bg-clip-text text-transparent"
+            >
+              Market
+            </motion.h3>
+
+            <div className="bg-white/10 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
+              {[
+                {
+                  pair: "HYPSE-USD",
+                  price: "$0.38940",
+                  change: "+1.53%",
+                  changeColor: "text-emerald-400",
+                },
+                {
+                  pair: "PLMP-USD",
+                  price: "$0.002934",
+                  change: "+11.02%",
+                  changeColor: "text-emerald-400",
+                },
+                {
+                  pair: "YALA-USD",
+                  price: "$0.1818",
+                  change: "+6.71%",
+                  changeColor: "text-emerald-400",
+                },
+              ].map((token, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`p-4 flex justify-between items-center ${
+                    i !== 2 ? "border-b border-white/10" : ""
+                  }`}
+                >
+                  <div>
+                    <div className="font-medium">{token.pair}</div>
+                    <div className="text-sm text-indigo-100/80">Perpetual</div>
+                  </div>
+                  <div className="text-right">
+                    <div>{token.price}</div>
+                    <div className={`text-sm ${token.changeColor}`}>
+                      {token.change}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+
+              <div className="p-4 border-t border-white/10">
+                <button className="w-full py-3 bg-gradient-to-tr from-purple-600/30 via-fuchsia-400/30 to-indigo-500/30 rounded-lg text-sm flex items-center justify-center gap-1 hover:bg-white/10 transition">
+                  Supply
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* New Partners Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-7xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-3xl font-bold mb-8 bg-gradient-to-r from-fuchsia-300 to-indigo-300 bg-clip-text text-transparent"
+            >
+              Partners
+            </motion.h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              {/* Audit Partners */}
+              <div>
+                <h3 className="text-xl font-semibold mb-6">Audit</h3>
+                <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4">
+                  <Check className="text-emerald-400" />
+                  <span className="font-medium">SHERLOCK</span>
+                </div>
+              </div>
+
+              {/* Investment Partners */}
+              <div>
+                <h3 className="text-xl font-semibold mb-6">Investment Partners</h3>
+                <p className="text-indigo-100/80 mb-6">
+                  ELFI Protocol is backed by crypto's leading investment partners IDGCapital, KuCoin Ventures.
+                </p>
+                
+                <div className="space-y-4">
+                  {/* IDG Capital */}
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <h4 className="font-medium mb-3">IDG Capital</h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2">
+                        <Check className="text-emerald-400 w-4 h-4" />
+                        <span>ANTITIPULM</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Gate.io */}
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <h4 className="font-medium mb-3">Gate.io</h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2">
+                        <Check className="text-emerald-400 w-4 h-4" />
+                        <span>Mises</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="text-emerald-400 w-4 h-4" />
+                        <span>Gake</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </main>
+
+      {/* Footer */}
+      <footer className="relative z-20 pt-16 pb-10 border-t border-white/10 bg-gradient-to-b from-[#11061c]/80 to-black">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <div className="text-xl font-bold bg-gradient-to-r from-fuchsia-400 to-purple-300 bg-clip-text text-transparent mb-4">
+                Digital Vault
+              </div>
+              <p className="text-sm text-white/60">
+                Advanced crypto trading platform for professionals.
+              </p>
+            </div>
+
+            {["Product", "Company", "Resources", "Social"].map((title, i) => (
+              <div key={i}>
+                <h4 className="font-medium mb-4">{title}</h4>
+                <ul className="space-y-2 text-sm text-white/60">
+                  {[1, 2, 3].map((item) => (
+                    <li key={item}>
+                      <a href="#" className="hover:text-fuchsia-300 transition">
+                        {title} Link {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-sm text-white/40">
+              © {new Date().getFullYear()} Digital Vault. All rights reserved.
+            </div>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              {["Twitter", "Telegram", "Discord"].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="text-white/60 hover:text-fuchsia-300 transition"
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
