@@ -1,5 +1,13 @@
 "use client";
 
+import Sidebar from "../Sidebar";
+import PairInfoBar from "../PairInfoBar";
+import TradingView from "@/components/TradingView";
+import BottomNav from "../BottomNav";
+import StakingPanel from "../StakingPanel";
+import ConnectWalletBanner from "../ConnectWalletBanner";
+import OrderPanel from "../OrderPanel";
+
 interface TradingLayoutProps {
   pair: string;
   currentPrice: number;

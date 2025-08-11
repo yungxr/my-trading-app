@@ -3,7 +3,7 @@ import "./globals.css"; // если используешь TailwindCSS или с
 import PageTransitionWrapper from "./PageTransitionWrapper";
 
 export const metadata = {
-  title: "ELFi Clone",
+  title: "Digital Vault",
   description: "Demo trading site with animations",
 };
 

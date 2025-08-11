@@ -13,7 +13,7 @@ export default function PositionTypeSelector({
     <div className="flex mb-6 rounded-xl overflow-hidden">
       <button
         onClick={() => setPositionType("long")}
-        className={`flex-1 py-3 font-bold transition-all ${
+        className={`flex-1 py-3 font-bold transition-all cursor-pointer ${
           positionType === "long"
             ? "bg-gradient-to-b from-purple-600 to-indigo-500 text-white shadow-lg shadow-emerald-500/20"
             : "bg-white/10 text-indigo-100/80 hover:bg-white/20 border-r border-white/10"
@@ -23,9 +23,9 @@ export default function PositionTypeSelector({
       </button>
       <button
         onClick={() => setPositionType("short")}
-        className={`flex-1 py-3 font-bold transition-all ${
+        className={`flex-1 py-3 font-bold transition-all cursor-pointer ${
           positionType === "short"
-            ? "bg-gradient-to-b from-rose-500/90 to-rose-600/90 text-white shadow-lg shadow-rose-500/20"
+            ? "bg-gradient-to-b from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-500/20"
             : "bg-white/10 text-indigo-100/80 hover:bg-white/20"
         }`}
       >

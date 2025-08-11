@@ -17,7 +17,14 @@
     "plugins": [
       {
         "name": "next"
-      }
+      },
+
+{
+  "jsx": "react-jsx",
+  "types": ["react", "node"]
+}
+
+
     ],
     "paths": {
       "@/*": ["./src/*"]
