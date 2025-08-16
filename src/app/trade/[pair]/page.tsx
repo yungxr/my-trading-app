@@ -425,10 +425,12 @@ export default function TradePage() {
 
         <div className="flex-1 flex flex-col">{renderMainContent()}</div>
 
-        <div className="w-80 border-l border-transparent bg-white/5 p-4 flex flex-col justify-center backdrop-blur-sm relative">
-          <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-fuchsia-400/50 to-transparent"></div>
-          {renderRightPanel()}
-        </div>
+        {activeTab !== "bonus" && (
+          <div className="w-80 border-l border-transparent bg-white/5 p-4 flex flex-col justify-center backdrop-blur-sm relative">
+            <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-fuchsia-400/50 to-transparent"></div>
+            {renderRightPanel()}
+          </div>
+        )}
       </div>
     </div>
   );

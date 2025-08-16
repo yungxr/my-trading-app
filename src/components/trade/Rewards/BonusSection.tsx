@@ -37,13 +37,13 @@ const bonusTasks: BonusTask[] = [
 
 export default function BonusSection(): JSX.Element {
   return (
-    <section className="rounded-2xl p-8 relative text-white max-w-full">
+    <section className="rounded-2xl p-16 relative text-white max-w-full">
       {/* Header */}
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm text-gray-400 mb-1">New User Exclusive</p>
           <h1 className="text-4xl font-extrabold leading-tight mb-2">
-            4,000 USD Bonus Awaits!
+            1,000 USD Bonus Awaits!
           </h1>
           <div className="flex items-center text-gray-400 text-sm">
             <FiUser className="mr-2" size={16} />
