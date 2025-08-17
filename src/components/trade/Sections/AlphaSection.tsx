@@ -171,7 +171,7 @@ export default function MemeCoinCreator() {
             <div>
               <label className="block text-pink-300/80 text-sm mb-2">Description</label>
               <textarea 
-                value={description}
+                value={description} 
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your meme coin..." 
                 rows={3}
@@ -190,7 +190,7 @@ export default function MemeCoinCreator() {
                         ? removeSocialLink(social) 
                         : addSocialLink(social)
                     }
-                    className={`px-3 py-1 rounded-full text-sm flex items-center ${
+                    className={`px-3 py-1 rounded-full text-sm flex items-center cursor-pointer ${
                       socialLinks.includes(social)
                         ? 'bg-pink-600/90 text-white'
                         : 'bg-white/10 text-pink-300/80 hover:bg-white/20'
@@ -208,13 +208,11 @@ export default function MemeCoinCreator() {
         </div>
         
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
           onClick={handleCreateCoin}
-          className="mt-6 w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-white hover:opacity-90 transition-all"
+          className="mt-6 w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-white hover:opacity-90 transition-all cursor-pointer"
           disabled={!coinName || !coinSymbol}
         >
-          Create Meme Coin
+          To create your own meme coin, you need to connect your wallet first
         </motion.button>
       </motion.div>
 
@@ -231,7 +229,7 @@ export default function MemeCoinCreator() {
           </h2>
           <button 
             onClick={fetchMemeCoins}
-            className="text-pink-300/80 hover:text-pink-300 text-sm flex items-center"
+            className="text-pink-300/80 hover:text-pink-300 text-sm flex items-center cursor-pointer"
             disabled={loading}
           >
             {loading ? 'Updating...' : 'Refresh Data'}

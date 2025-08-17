@@ -13,20 +13,19 @@ interface StakingPoolCardProps {
   onStake: () => void;
 }
 
-export default function StakingPoolCard({ pool, walletConnected, onStake }: StakingPoolCardProps) {
+export default function StakingPoolCard({
+  pool,
+  walletConnected,
+  onStake,
+}: StakingPoolCardProps) {
   return (
     <div className="bg-white/5 p-4 rounded-xl border border-transparent backdrop-blur-sm relative overflow-hidden">
       {/* Градиентный бордер */}
-      <div className="absolute inset-0 rounded-xl p-px bg-gradient-to-br from-purple-500/30 via-fuchsia-500/30 to-indigo-500/30 -z-10">
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#191633]/90 via-black/85 to-[#2b174a]/90"></div>
-      </div>
-      
+      <div className="absolute inset-0 rounded-xl p-px bg-gradient-to-br from-purple-500/30 via-fuchsia-500/30 to-indigo-500/30 -z-10"></div>
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-lg font-bold">{pool.name}</h3>
-          <p className="text-indigo-100/80 text-sm">
-            {pool.description}
-          </p>
+          <p className="text-indigo-100/80 text-sm">{pool.description}</p>
         </div>
         <span className="bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded-full text-sm border border-emerald-500/30">
           {pool.apr} APR

@@ -155,16 +155,9 @@ export default function OrderPanel({
           ))}
         </div>
         {/* Баннер для новых пользователей */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-500 p-3 rounded-lg border border-fuchsia-400/30 mb-6">
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-500 p-3 rounded-lg mb-6">
           <div className="text-sm font-medium text-white">
             New User Exclusive: 1,000 USDC Bonus Awaits!
-            <button
-              onClick={closeModal}
-              className="text-indigo-100/80 hover:text-white text-2xl leading-none"
-              aria-label="Close modal"
-            >
-              &times;
-            </button>
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
-// lib/binance.ts
+"use client";
+
 export async function getMarketData(pair: string) {
   try {
     const cleanPair = pair.replace(/USDT$/, '').replace('-', '');

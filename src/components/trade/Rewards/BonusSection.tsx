@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { FiUser } from "react-icons/fi";
+import { useState } from "react";
 
 interface BonusTask {
   id: number;
@@ -24,7 +25,7 @@ const bonusTasks: BonusTask[] = [
     title: "First Trading",
     description: "Complete the first trading ≥ 300 USD to receive 20 USDT",
     buttons: ["Trade"],
-    ticketImageSrc: "/assets/Group 2.png",
+    ticketImageSrc: "/assets/Group 3.png",
   },
   {
     id: 3,
@@ -36,6 +37,16 @@ const bonusTasks: BonusTask[] = [
 ];
 
 export default function BonusSection(): JSX.Element {
+  const [showWalletModal, setShowWalletModal] = useState(false);
+  const [actionType, setActionType] = useState<"Deposit" | "Trade" | null>(
+    null
+  );
+
+  const handleButtonClick = (buttonType: "Deposit" | "Trade") => {
+    setActionType(buttonType);
+    setShowWalletModal(true);
+  };
+
   return (
     <section className="rounded-2xl p-16 relative text-white max-w-full">
       {/* Header */}
@@ -54,7 +65,7 @@ export default function BonusSection(): JSX.Element {
           </div>
         </div>
         {/* Right side image */}
-        <div className="relative w-48 h-40">
+        <div className="relative top-1.5 right-4 w-48 h-40">
           <Image
             src="/assets/Group 1.png"
             alt="Bonus Illustration"
@@ -70,10 +81,10 @@ export default function BonusSection(): JSX.Element {
         {bonusTasks.map((task) => (
           <div
             key={task.id}
-            className="bg-[#1a1a2e] rounded-xl flex items-center p-6 relative overflow-hidden"
+            className="flex items-center p-6 relative bg-gradient-to-br from-purple-500/30 via-fuchsia-500/30 to-indigo-500/30 p-4 rounded-xl shadow-md"
           >
             {/* Limited task label */}
-            <div className="absolute top-0 left-0 bg-purple-600 rounded-tr-xl rounded-bl-xl px-3 py-1 text-xs font-semibold select-none z-10">
+            <div className="absolute top-0 left-0 bg-purple-600 rounded-tl-xl rounded-br-xl px-3 py-1 text-xs font-semibold select-none z-10">
               Limited task
             </div>
 
@@ -101,7 +112,8 @@ export default function BonusSection(): JSX.Element {
               {task.buttons.map((btn) => (
                 <button
                   key={btn}
-                  className="bg-purple-600 hover:bg-purple-700 transition-colors rounded-full px-6 py-2 text-white font-semibold text-sm"
+                  onClick={() => handleButtonClick(btn as "Deposit" | "Trade")}
+                  className="bg-gradient-to-tl flex from-purple-600 via-fuchsia-400 to-indigo-500 px-6 py-3 rounded-xl font-bold shadow-lg transition-all cursor-pointer justify-center hover:opacity-90 shadow-purple-500/20"
                 >
                   {btn}
                 </button>
@@ -110,6 +122,55 @@ export default function BonusSection(): JSX.Element {
           </div>
         ))}
       </div>
+
+      {/* Wallet Connection Modal */}
+      {showWalletModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 p-6 rounded-2xl max-w-md w-full border border-purple-500 relative">
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 -z-10"></div>
+
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent">
+                Connect Wallet
+              </h3>
+              <button
+                onClick={() => setShowWalletModal(false)}
+                className="text-purple-100/80 hover:text-white text-2xl leading-none cursor-pointer"
+                aria-label="Close modal"
+              >
+                &times;
+              </button>
+            </div>
+
+            <p className="text-purple-100/80 mb-6">
+              To {actionType?.toLowerCase()}, you need to connect your wallet
+              first.
+            </p>
+
+            <div className="space-y-3 mb-6 flex flex-col">
+              <button
+                className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold text-white hover:opacity-90 transition-all cursor-pointer"
+                disabled
+              >
+                Connect Wallet
+              </button>
+              <button
+                onClick={() => setShowWalletModal(false)}
+                className="w-full py-3 rounded-lg font-medium text-white bg-white/10 hover:bg-white/20 transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <div className="text-center text-xs text-purple-100/60">
+              By connecting, you agree to our{" "}
+              <a href="#" className="text-purple-300 hover:underline">
+                Terms of Service
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

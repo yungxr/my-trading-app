@@ -33,17 +33,17 @@ export default function AirdropSection() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+          <div className="bg-white/5 p-4 rounded-xl">
             <div className="text-yellow-400/80 text-sm mb-1">Total Rewards</div>
             <div className="text-2xl font-bold">$50,000</div>
           </div>
-          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+          <div className="bg-white/5 p-4 rounded-xl">
             <div className="text-yellow-400/80 text-sm mb-1">
               Your Allocation
             </div>
             <div className="text-2xl font-bold">$0.00</div>
           </div>
-          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+          <div className="bg-white/5 p-4 rounded-xl">
             <div className="text-yellow-400/80 text-sm mb-1">
               Days Remaining
             </div>
@@ -64,7 +64,7 @@ export default function AirdropSection() {
           </div>
         </div>
 
-        <button className="w-full py-3 bg-gradient-to-r from-yellow-600 to-amber-600 rounded-xl font-bold hover:scale-105 transition-all border border-transparent hover:border-yellow-300/50 shadow-yellow-500/20">
+        <button className="w-full py-3 bg-gradient-to-r from-yellow-600 to-amber-600 rounded-xl font-bold hover:opacity-90 transition-all cursor-pointer">
           Connect Wallet to Participate
         </button>
       </div>
@@ -80,7 +80,7 @@ export default function AirdropSection() {
           {tasks.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10"
+              className="flex items-center justify-between p-4 bg-white/5 rounded-xl"
             >
               <div>
                 <h3 className="font-medium">{item.task}</h3>
@@ -89,7 +89,7 @@ export default function AirdropSection() {
                 </p>
               </div>
               <button
-                className="px-4 py-2 bg-white/10 text-yellow-400 rounded-lg hover:bg-white/20 transition-all"
+                className="px-4 py-2 bg-white/10 text-yellow-400 rounded-lg hover:bg-white/20 transition-all cursor-pointer"
                 onClick={() => handleCompleteClick(item.task)}
               >
                 {item.completed ? "Claim" : "Complete"}
@@ -102,7 +102,7 @@ export default function AirdropSection() {
       {/* Wallet Connection Modal */}
       {showWalletModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gradient-to-br from-[#191633] to-[#2b174a] p-6 rounded-2xl max-w-md w-full border border-yellow-500/30 relative">
+          <div className="bg-gradient-to-br from-[#191633] to-[#2b174a] p-6 rounded-2xl max-w-md w-full border border-purple-800 relative">
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-amber-500/10 -z-10"></div>
 
             <div className="flex justify-between items-center mb-4">
@@ -111,7 +111,7 @@ export default function AirdropSection() {
               </h3>
               <button
                 onClick={closeModal}
-                className="text-indigo-100/80 hover:text-white text-2xl leading-none"
+                className="text-indigo-100/80 hover:text-white text-2xl leading-none cursor-pointer"
                 aria-label="Close modal"
               >
                 &times;
@@ -126,12 +126,12 @@ export default function AirdropSection() {
             </p>
 
             <div className="space-y-3 mb-6 flex flex-col">
-              <button className="w-full py-3 rounded-lg font-medium text-white bg-white/10 hover:bg-white/20 transition-all">
+              <button className="w-full py-3 rounded-lg font-medium text-white bg-white/10 hover:bg-white/20 transition-all cursor-pointer">
                 <span>Connect Wallet</span>
               </button>
               <button
                 onClick={() => setShowWalletModal(false)}
-                className="w-full py-3 rounded-lg font-medium text-white bg-white/10 hover:bg-white/20 transition-all"
+                className="w-full py-3 rounded-lg font-medium text-white bg-white/10 hover:bg-white/20 transition-all cursor-pointer"
               >
                 Cancel
               </button>
