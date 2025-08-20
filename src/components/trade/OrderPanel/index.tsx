@@ -74,7 +74,6 @@ export default function OrderPanel({
 
               <div className="flex flex-col gap-3 mt-4">
                 <button
-                  onClick={onConnect}
                   className={`
                     w-full py-3 rounded-lg font-bold text-white
                     transition-all hover:opacity-90 cursor-pointer
@@ -154,7 +153,6 @@ export default function OrderPanel({
             </button>
           ))}
         </div>
-        {/* Баннер для новых пользователей */}
         <div className="bg-gradient-to-r from-purple-600 to-indigo-500 p-3 rounded-lg mb-6">
           <div className="text-sm font-medium text-white">
             New User Exclusive: 1,000 USDC Bonus Awaits!
@@ -188,4 +186,4 @@ export default function OrderPanel({
       </div>
     </div>
   );
-}
+};

@@ -23,18 +23,6 @@ export default function DegenPage() {
 
   const calculateOpenSize = () => (margin * leverage).toLocaleString("en-US");
 
-  const handlePlaceOrder = () => {
-    // Оставлено пустым для будущей реализации
-  };
-
-  const handleDeposit = () => {
-    // Оставлено пустым для будущей реализации
-  };
-
-  const handleWithdraw = () => {
-    // Оставлено пустым для будущей реализации
-  };
-
   return (
     <>
       <DegenSection pair={pair} positionType={positionType} />
@@ -155,7 +143,6 @@ export default function DegenPage() {
                 ? "bg-gradient-to-r from-purple-600 via-fuchsia-400 to-indigo-500 shadow-emerald-500/20"
                 : "bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-500/20"
             }`}
-            onClick={handlePlaceOrder}
           >
             Connect Wallet
           </button>
@@ -181,16 +168,10 @@ export default function DegenPage() {
           </div>
 
           <div className="flex justify-between gap-2 mb-6">
-            <button
-              className="flex-1 py-2 bg-white/10 text-indigo-100/80 rounded-lg hover:bg-white/20 transition-all cursor-pointer"
-              onClick={handleDeposit}
-            >
+            <button className="flex-1 py-2 bg-white/10 text-indigo-100/80 rounded-lg hover:bg-white/20 transition-all cursor-pointer">
               Deposit
             </button>
-            <button
-              className="flex-1 py-2 bg-white/10 text-indigo-100/80 rounded-lg hover:bg-white/20 transition-all cursor-pointer"
-              onClick={handleWithdraw}
-            >
+            <button className="flex-1 py-2 bg-white/10 text-indigo-100/80 rounded-lg hover:bg-white/20 transition-all cursor-pointer">
               Withdraw
             </button>
           </div>

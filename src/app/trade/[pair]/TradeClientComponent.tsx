@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
-import PairInfo from '@/components/trade/PairInfoBar';
-import TradingViewWidget from '@/components/trade/TradingViewWidget';
-import OrderPanel from '@/components/trade/OrderPanel';
-import BottomNav from '@/components/trade/BottomNav';
-import ConnectWalletBanner from '@/components/trade/ConnectWalletBanner';
-import { useMarketData } from '@/components/hooks/useMarketData';
+import { useState } from "react";
+import PairInfo from "@/components/trade/PairInfoBar";
+import TradingViewWidget from "@/components/trade/TradingViewWidget";
+import OrderPanel from "@/components/trade/OrderPanel";
+import BottomNav from "@/components/trade/BottomNav";
+import ConnectWalletBanner from "@/components/trade/ConnectWalletBanner";
+import { useMarketData } from "@/components/hooks/useMarketData";
 
 export default function TradeClientComponent({ pair }: { pair: string }) {
   const [walletConnected, setWalletConnected] = useState(false);

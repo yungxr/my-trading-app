@@ -13,14 +13,12 @@ import {
 export default function DocsPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Футуристичный фон с сеткой */}
       <div className="fixed inset-0 -z-50">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155] opacity-95" />
         <div className="absolute inset-0 bg-[url('/images/grid-pattern-dark.svg')] opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#3b82f6]/20 via-transparent to-transparent" />
       </div>
 
-      {/* Анимированные элементы */}
       <motion.div
         animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
         transition={{ duration: 15, repeat: Infinity }}
@@ -33,7 +31,6 @@ export default function DocsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 relative z-10">
-        {/* Заголовок с анимацией */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -48,7 +45,6 @@ export default function DocsPage() {
           </p>
         </motion.div>
 
-        {/* Основной контент */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
@@ -130,7 +126,6 @@ export default function DocsPage() {
           ))}
         </div>
 
-        {/* API пример */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -7,11 +7,16 @@ interface PairInfoProps {
   isLoading?: boolean;
 }
 
-export default function PairInfo({ pair, currentPrice, priceChange, isLoading }: PairInfoProps) {
+export default function PairInfo({
+  pair,
+  currentPrice,
+  priceChange,
+  isLoading,
+}: PairInfoProps) {
   return (
     <div className="flex items-center justify-between p-4 border-b border-transparent bg-white/5 backdrop-blur-sm relative">
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-fuchsia-400/50 to-transparent"></div>
-      
+
       <div className="flex items-center space-x-4">
         <div className="text-xl font-bold bg-gradient-to-r from-fuchsia-300 to-indigo-300 bg-clip-text text-transparent">
           {pair.replace("-", "/")}
@@ -26,10 +31,20 @@ export default function PairInfo({ pair, currentPrice, priceChange, isLoading }:
             })
           )}
         </div>
-        <div className={`text-xs px-2 py-0.5 rounded-full ${
-          isLoading ? 'bg-white/10' : priceChange >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
-        }`}>
-          {isLoading ? '...' : priceChange >= 0 ? `+${priceChange.toFixed(2)}%` : `${priceChange.toFixed(2)}%`}
+        <div
+          className={`text-xs px-2 py-0.5 rounded-full ${
+            isLoading
+              ? "bg-white/10"
+              : priceChange >= 0
+              ? "bg-emerald-500/20 text-emerald-400"
+              : "bg-rose-500/20 text-rose-400"
+          }`}
+        >
+          {isLoading
+            ? "..."
+            : priceChange >= 0
+            ? `+${priceChange.toFixed(2)}%`
+            : `${priceChange.toFixed(2)}%`}
         </div>
       </div>
       <div className="flex items-center space-x-4 text-sm">

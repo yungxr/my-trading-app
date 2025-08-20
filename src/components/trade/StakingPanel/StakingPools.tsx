@@ -20,7 +20,6 @@ export default function StakingPoolCard({
 }: StakingPoolCardProps) {
   return (
     <div className="bg-white/5 p-4 rounded-xl border border-transparent backdrop-blur-sm relative overflow-hidden">
-      {/* Градиентный бордер */}
       <div className="absolute inset-0 rounded-xl p-px bg-gradient-to-br from-purple-500/30 via-fuchsia-500/30 to-indigo-500/30 -z-10"></div>
       <div className="flex justify-between items-start mb-4">
         <div>
@@ -60,4 +59,4 @@ export default function StakingPoolCard({
       </button>
     </div>
   );
-}
+};

@@ -3,13 +3,13 @@
 interface LeverageSelectorProps {
   leverage: number;
   setLeverage: (value: number) => void;
-  positionType: "long" | "short"; // Добавляем пропс для типа позиции
+  positionType: "long" | "short";
 }
 
-export default function LeverageSelector({ 
-  leverage, 
+export default function LeverageSelector({
+  leverage,
   setLeverage,
-  positionType 
+  positionType,
 }: LeverageSelectorProps) {
   return (
     <div className="flex items-center justify-center mb-6">
@@ -31,9 +31,7 @@ export default function LeverageSelector({
           </button>
         ))}
       </div>
-      <button className="text-indigo-100/80 hover:text-white">
-
-      </button>
+      <button className="text-indigo-100/80 hover:text-white"></button>
     </div>
   );
 }

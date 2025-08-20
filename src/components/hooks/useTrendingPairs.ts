@@ -25,14 +25,20 @@ export function useTrendingPairs() {
           change: parseFloat(data.priceChangePercent),
         };
       } catch {
-        return DEFAULT_PAIRS.find(p => p.symbol === pair) || { symbol: pair, price: 0, change: 0 };
+        return (
+          DEFAULT_PAIRS.find((p) => p.symbol === pair) || {
+            symbol: pair,
+            price: 0,
+            change: 0,
+          }
+        );
       }
     };
 
     const fetchInitialData = async () => {
       try {
         const updatedPairs = await Promise.all(
-          DEFAULT_PAIRS.map(p => updatePairData(p.symbol))
+          DEFAULT_PAIRS.map((p) => updatePairData(p.symbol))
         );
         setTrendingPairs(updatedPairs);
         setIsLoading(false);
@@ -44,19 +50,20 @@ export function useTrendingPairs() {
 
     fetchInitialData();
 
-    // Настраиваем WebSocket для каждой пары
-    const cleanups = DEFAULT_PAIRS.map(pair => {
+    const cleanups = DEFAULT_PAIRS.map((pair) => {
       const cleanPair = pair.symbol.replace("-USDT", "");
       return setupBinanceWebSocket(cleanPair, (data) => {
-        setTrendingPairs(prev => prev.map(p => 
-          p.symbol === pair.symbol 
-            ? { ...p, price: data.price, change: data.change } 
-            : p
-        ));
+        setTrendingPairs((prev) =>
+          prev.map((p) =>
+            p.symbol === pair.symbol
+              ? { ...p, price: data.price, change: data.change }
+              : p
+          )
+        );
       });
     });
 
-    return () => cleanups.forEach(cleanup => cleanup());
+    return () => cleanups.forEach((cleanup) => cleanup());
   }, []);
 
   return { trendingPairs, isLoading };

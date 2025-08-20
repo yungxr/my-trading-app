@@ -7,16 +7,19 @@ export default function ConnectWalletBanner() {
 
       <div className="px-6 py-2 font-semibold">
         <span className="inline-block cursor-pointer">
-          <span className="
+          <span
+            className="
             bg-clip-text text-transparent 
             bg-gradient-to-r from-purple-600 via-fuchsia-400 to-indigo-500
             bg-[length:200%_200%] bg-[position:0%_0%]
             hover:bg-[position:100%_100%]
             transition-[background-position] duration-1000 ease-in-out
-          ">
+          "
+          >
             Connect wallet
           </span>
-        </span> to trade
+        </span>{" "}
+        to trade
       </div>
     </div>
   );

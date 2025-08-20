@@ -5,9 +5,9 @@ interface PositionTypeSelectorProps {
   setPositionType: (type: "long" | "short") => void;
 }
 
-export default function PositionTypeSelector({ 
-  positionType, 
-  setPositionType 
+export default function PositionTypeSelector({
+  positionType,
+  setPositionType,
 }: PositionTypeSelectorProps) {
   return (
     <div className="flex mb-6 rounded-xl overflow-hidden">

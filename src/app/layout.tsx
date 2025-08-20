@@ -1,5 +1,4 @@
-// app/layout.tsx
-import "./globals.css"; // если используешь TailwindCSS или стили
+import "./globals.css";
 import PageTransitionWrapper from "./PageTransitionWrapper";
 
 export const metadata = {

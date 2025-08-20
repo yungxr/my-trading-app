@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-// Типы для данных API
 type MarketData = {
   pair: string;
   price: string;
@@ -46,12 +45,10 @@ export default function Home() {
   const [statsData, setStatsData] = useState<StatData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Функция для навигации
   const navigateToTrade = (pair: string = "BTC") => {
     router.push(`/trade/${pair}`);
   };
 
-  // Функция для форматирования чисел
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -61,16 +58,12 @@ export default function Home() {
     }).format(num);
   };
 
-  // Функция для получения данных о криптовалютах
   const fetchCryptoData = async () => {
     try {
-      // Используем CoinGecko API для получения данных
       const response = await fetch(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,cardano&order=market_cap_desc&per_page=4&page=1&sparkline=false"
       );
       const data = await response.json();
-
-      // Формируем данные для рынка
       const newMarketData = data.map((crypto: any) => {
         const change = crypto.price_change_percentage_24h.toFixed(2);
         return {
@@ -83,7 +76,6 @@ export default function Home() {
 
       setMarketData(newMarketData);
 
-      // Формируем данные для пулов
       const newPoolData = [
         {
           token: "BTC",
@@ -110,7 +102,6 @@ export default function Home() {
 
       setPoolData(newPoolData);
 
-      // Формируем статистику
       const newStatsData = [
         {
           label: "Trading Volume",
@@ -139,7 +130,6 @@ export default function Home() {
     }
   };
 
-  // Загрузка данных при монтировании и обновление каждые 30 секунд
   useEffect(() => {
     fetchCryptoData();
     const interval = setInterval(fetchCryptoData, 30000);
@@ -148,7 +138,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Fixed Background Layer */}
+      {/* Фиксированный бг */}
       <div className="fixed inset-0 -z-50">
         <Image
           src="/images/bg.jpg"
@@ -162,7 +152,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-[#a67cf05b] backdrop-blur-[1px]" />
       </div>
 
-      {/* Header */}
+      {/* Шапка */}
       <header className="relative z-30 w-full pt-9 pb-7 px-6 lg:px-24 flex items-center justify-between">
         <span className="font-black text-2xl lg:text-3xl bg-gradient-to-tr from-fuchsia-400 via-purple-300 to-white bg-clip-text text-transparent">
           Digital Vault
@@ -175,12 +165,10 @@ export default function Home() {
         </button>
       </header>
 
-      {/* Main Content */}
+      {/* Главный контент */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 py-12">
-        {/* Updated Hero Section - Split Layout */}
         <section className="pt-8 pb-24 px-4">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text Content */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -203,7 +191,6 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right Column - Stats */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -211,8 +198,7 @@ export default function Home() {
               className="grid grid-cols-1 gap-6"
             >
               {loading
-                ? // Skeleton loader while data is loading
-                  Array(3)
+                ? Array(3)
                     .fill(0)
                     .map((_, i) => (
                       <div
@@ -245,7 +231,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Maximum Collateral for Margin Section */}
         <section className="py-20 px-4">
           <div className="max-w-7xl mx-auto">
             <motion.h2
@@ -314,9 +299,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Two Columns Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Yield Pools */}
           <section className="lg:col-span-2">
             <motion.h2
               initial={{ opacity: 0 }}
@@ -328,8 +311,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {loading
-                ? // Skeleton loader while data is loading
-                  Array(3)
+                ? Array(3)
                     .fill(0)
                     .map((_, i) => (
                       <div
@@ -373,7 +355,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Right Column - Market Prices */}
           <section>
             <motion.h3
               initial={{ opacity: 0 }}
@@ -385,8 +366,7 @@ export default function Home() {
 
             <div className="bg-white/10 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
               {loading
-                ? // Skeleton loader while data is loading
-                  Array(3)
+                ? Array(3)
                     .fill(0)
                     .map((_, i) => (
                       <div
@@ -435,7 +415,6 @@ export default function Home() {
           </section>
         </div>
 
-        {/* New Partners Section */}
         <section className="py-20 px-4">
           <div className="max-w-7xl mx-auto">
             <motion.h2
@@ -447,7 +426,6 @@ export default function Home() {
             </motion.h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {/* Audit Partners */}
               <div>
                 <h3 className="text-xl font-semibold mb-6">Audit</h3>
                 <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4">
@@ -456,7 +434,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Investment Partners */}
               <div>
                 <h3 className="text-xl font-semibold mb-6">
                   Investment Partners
@@ -467,7 +444,6 @@ export default function Home() {
                 </p>
 
                 <div className="space-y-4">
-                  {/* IDG Capital */}
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                     <h4 className="font-medium mb-3">IDG Capital</h4>
                     <ul className="space-y-2">
@@ -478,7 +454,6 @@ export default function Home() {
                     </ul>
                   </div>
 
-                  {/* Gate.io */}
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                     <h4 className="font-medium mb-3">Gate.io</h4>
                     <ul className="space-y-2">
@@ -499,8 +474,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Footer */}
-      {/* Footer */}
+      {/* Футер */}
       <footer className="relative z-20 pt-16 pb-10 border-t border-white/10 bg-gradient-to-b from-[#11061c]/80 to-black">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-12">

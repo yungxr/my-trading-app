@@ -7,10 +7,7 @@ export default function DocsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Открываем документацию в новом окне
     const newWindow = window.open("/docs", "_blank");
-
-    // Если новое окно заблокировано, делаем редирект
     if (
       !newWindow ||
       newWindow.closed ||
@@ -18,7 +15,6 @@ export default function DocsPage() {
     ) {
       router.push("/docs");
     } else {
-      // Возвращаем пользователя на предыдущую страницу
       router.back();
     }
   }, [router]);

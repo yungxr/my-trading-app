@@ -49,7 +49,6 @@ export default function BonusSection(): JSX.Element {
 
   return (
     <section className="rounded-2xl p-16 relative text-white max-w-full">
-      {/* Header */}
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm text-gray-400 mb-1">New User Exclusive</p>
@@ -64,7 +63,6 @@ export default function BonusSection(): JSX.Element {
             </span>
           </div>
         </div>
-        {/* Right side image */}
         <div className="relative top-1.5 right-4 w-48 h-40">
           <Image
             src="/assets/Group 1.png"
@@ -76,19 +74,16 @@ export default function BonusSection(): JSX.Element {
         </div>
       </div>
 
-      {/* Bonus Tasks List */}
       <div className="space-y-6">
         {bonusTasks.map((task) => (
           <div
             key={task.id}
             className="flex items-center p-6 relative bg-gradient-to-br from-purple-500/30 via-fuchsia-500/30 to-indigo-500/30 p-4 rounded-xl shadow-md"
           >
-            {/* Limited task label */}
             <div className="absolute top-0 left-0 bg-purple-600 rounded-tl-xl rounded-br-xl px-3 py-1 text-xs font-semibold select-none z-10">
               Limited task
             </div>
 
-            {/* Left ticket image */}
             <div className="flex-shrink-0 relative w-40 h-24 mr-8">
               <Image
                 src={task.ticketImageSrc}
@@ -99,7 +94,6 @@ export default function BonusSection(): JSX.Element {
               />
             </div>
 
-            {/* Right side content */}
             <div className="flex flex-col flex-grow">
               <h3 className="text-white font-semibold text-lg mb-1">
                 {task.title}
@@ -107,7 +101,6 @@ export default function BonusSection(): JSX.Element {
               <p className="text-gray-400 text-sm mb-4">{task.description}</p>
             </div>
 
-            {/* Buttons aligned to right end */}
             <div className="ml-auto flex space-x-4">
               {task.buttons.map((btn) => (
                 <button
@@ -123,7 +116,7 @@ export default function BonusSection(): JSX.Element {
         ))}
       </div>
 
-      {/* Wallet Connection Modal */}
+      {/* модалка */}
       {showWalletModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 p-6 rounded-2xl max-w-md w-full border border-purple-500 relative">

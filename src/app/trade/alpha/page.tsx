@@ -1,6 +1,6 @@
 "use client";
 
-import AlphaSection from '@/components/trade/Sections/AlphaSection';
+import AlphaSection from "@/components/trade/Sections/AlphaSection";
 
 export default function AlphaPage() {
   return (

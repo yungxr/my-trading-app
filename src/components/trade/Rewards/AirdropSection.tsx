@@ -10,7 +10,7 @@ export default function AirdropSection() {
     { id: 1, task: "Follow us on Twitter", reward: "$50", completed: false },
     { id: 2, task: "Join Telegram", reward: "$50", completed: false },
     { id: 3, task: "Trade $1000 volume", reward: "$100", completed: false },
-    { id: 4, task: "Invite 3 friends", reward: "$150", completed: false },
+    { id: 4, task: "Invite 10 friends", reward: "$150", completed: false },
   ];
 
   const handleCompleteClick = (task: string) => {
@@ -99,7 +99,7 @@ export default function AirdropSection() {
         </div>
       </div>
 
-      {/* Wallet Connection Modal */}
+      {/* Модалка */}
       {showWalletModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-gradient-to-br from-[#191633] to-[#2b174a] p-6 rounded-2xl max-w-md w-full border border-purple-800 relative">

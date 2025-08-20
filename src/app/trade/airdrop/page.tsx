@@ -1,6 +1,6 @@
 "use client";
 
-import AirdropSection from '@/components/trade/Rewards/AirdropSection';
+import AirdropSection from "@/components/trade/Rewards/AirdropSection";
 
 export default function AirdropPage() {
   return (

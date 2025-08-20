@@ -5,7 +5,10 @@ interface OrderTypeSelectorProps {
   setOrderType: (type: "market" | "limit") => void;
 }
 
-export default function OrderTypeSelector({ orderType, setOrderType }: OrderTypeSelectorProps) {
+export default function OrderTypeSelector({
+  orderType,
+  setOrderType,
+}: OrderTypeSelectorProps) {
   return (
     <div className="flex mb-6 rounded-xl overflow-hidden">
       <button

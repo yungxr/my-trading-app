@@ -12,14 +12,12 @@ import {
 export default function ReferralPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Эффектный градиентный фон */}
       <div className="fixed inset-0 -z-50">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#2d0b5e] to-[#4a1b8a] opacity-90" />
         <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#a855f7]/30 via-transparent to-transparent" />
       </div>
 
-      {/* Парящие элементы декора */}
       <motion.div
         animate={{ y: [0, -20, 0] }}
         transition={{ duration: 8, repeat: Infinity }}
@@ -32,7 +30,6 @@ export default function ReferralPage() {
       />
 
       <div className="max-w-6xl mx-auto px-4 py-16 relative z-10">
-        {/* Заголовок с анимацией */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,9 +48,7 @@ export default function ReferralPage() {
           </p>
         </motion.div>
 
-        {/* Основной контент */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Левая колонка - Статистика */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -114,7 +109,6 @@ export default function ReferralPage() {
             </div>
           </motion.div>
 
-          {/* Правая колонка - Реферальная ссылка */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}

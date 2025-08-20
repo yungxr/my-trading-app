@@ -9,7 +9,10 @@ interface TrendingPairItemProps {
   onClick: (symbol: string) => void;
 }
 
-export default function TrendingPairItem({ pair, onClick }: TrendingPairItemProps) {
+export default function TrendingPairItem({
+  pair,
+  onClick,
+}: TrendingPairItemProps) {
   return (
     <div
       className="flex justify-between items-center py-2 px-3 hover:bg-white/5 rounded-xl cursor-pointer transition-all mb-1 border border-transparent hover:border-white/10"

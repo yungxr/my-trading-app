@@ -15,16 +15,16 @@ export default function TradingViewWidget({ pair }: { pair: string }) {
       setError(null);
 
       if (containerRef.current) {
-        containerRef.current.innerHTML = '';
+        containerRef.current.innerHTML = "";
       }
 
       const script = document.createElement("script");
       script.src = "https://s3.tradingview.com/tv.js";
       script.async = true;
-      
+
       script.onload = () => {
         try {
-          const formattedPair = pair.replace('-', '').toUpperCase();
+          const formattedPair = pair.replace("-", "").toUpperCase();
           const symbol = `BINANCE:${formattedPair}`;
 
           new (window as any).TradingView.widget({
@@ -52,7 +52,7 @@ export default function TradingViewWidget({ pair }: { pair: string }) {
               "paneProperties.horzGridProperties.color": "#1e293b",
               "symbolWatermarkProperties.transparency": 90,
               "scalesProperties.textColor": "#b0b4c4",
-            }
+            },
           });
           setIsLoading(false);
         } catch (err) {
@@ -74,7 +74,7 @@ export default function TradingViewWidget({ pair }: { pair: string }) {
 
     return () => {
       if (containerRef.current) {
-        containerRef.current.innerHTML = '';
+        containerRef.current.innerHTML = "";
       }
     };
   }, [pair]);

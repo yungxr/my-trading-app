@@ -1,11 +1,11 @@
 "use client";
 
-import Link from 'next/link';
-import SidebarItem from './SidebarItem';
-import SidebarSection from './SidebarSection';
-import TrendingPairs from '../TrendingPairs';
-import { useTrendingPairs } from '@/components/hooks/useTrendingPairs';
-import { useEffect, useState } from 'react';
+import Link from "next/link";
+import SidebarItem from "./SidebarItem";
+import SidebarSection from "./SidebarSection";
+import TrendingPairs from "../TrendingPairs";
+import { useTrendingPairs } from "@/components/hooks/useTrendingPairs";
+import { useEffect, useState } from "react";
 
 interface SidebarProps {
   activeTab: string;
@@ -20,15 +20,15 @@ export default function Sidebar({ activeTab }: SidebarProps) {
   }, []);
 
   const getTradeLink = () => {
-    if (!isMounted) return '/trade/BTC';
-    const lastPair = localStorage.getItem('lastTradingPair') || 'BTC';
+    if (!isMounted) return "/trade/BTC";
+    const lastPair = localStorage.getItem("lastTradingPair") || "BTC";
     return `/trade/${lastPair}`;
   };
 
   const handlePairClick = (symbol: string) => {
-    const pairName = symbol.split('-')[0];
+    const pairName = symbol.split("-")[0];
     if (isMounted) {
-      localStorage.setItem('lastTradingPair', pairName);
+      localStorage.setItem("lastTradingPair", pairName);
     }
     window.location.href = `/trade/${pairName}`;
   };
@@ -39,32 +39,32 @@ export default function Sidebar({ activeTab }: SidebarProps) {
 
       <SidebarSection title="PRODUCT">
         <Link href={getTradeLink()} passHref>
-          <SidebarItem active={activeTab === 'trade'}>Trade</SidebarItem>
+          <SidebarItem active={activeTab === "trade"}>Trade</SidebarItem>
         </Link>
-        
+
         <Link href="/trade/alpha" passHref>
           <SidebarItem
-            active={activeTab === 'alpha'}
+            active={activeTab === "alpha"}
             badge="New"
             badgeColor="bg-gradient-to-r from-purple-500 to-indigo-500"
           >
             Create token
           </SidebarItem>
         </Link>
-        
+
         <Link href="/trade/degen" passHref>
           <SidebarItem
-            active={activeTab === 'degen'}
+            active={activeTab === "degen"}
             badge="1000x"
             badgeColor="bg-gradient-to-r from-rose-500 to-pink-500"
           >
             Degen
           </SidebarItem>
         </Link>
-        
+
         <Link href="/trade/earn" passHref>
           <SidebarItem
-            active={activeTab === 'earn'}
+            active={activeTab === "earn"}
             badge="+500% APR"
             badgeColor="bg-gradient-to-r from-emerald-500 to-teal-500"
           >
@@ -76,7 +76,7 @@ export default function Sidebar({ activeTab }: SidebarProps) {
       <SidebarSection title="REWARDS">
         <Link href="/trade/airdrop" passHref>
           <SidebarItem
-            active={activeTab === 'airdrop'}
+            active={activeTab === "airdrop"}
             icon="🎁"
             badge="50K Pool"
             badgeColor="bg-gradient-to-r from-yellow-500 to-amber-500"
@@ -84,10 +84,10 @@ export default function Sidebar({ activeTab }: SidebarProps) {
             Airdrop
           </SidebarItem>
         </Link>
-        
+
         <Link href="/trade/bonus" passHref>
           <SidebarItem
-            active={activeTab === 'bonus'}
+            active={activeTab === "bonus"}
             icon="💰"
             badge="$1000"
             badgeColor="bg-gradient-to-r from-emerald-500 to-teal-500"
@@ -99,19 +99,13 @@ export default function Sidebar({ activeTab }: SidebarProps) {
 
       <SidebarSection title="OTHER">
         <Link href="/trade/referral" passHref>
-          <SidebarItem
-            active={activeTab === 'referral'}
-            icon="👥"
-          >
+          <SidebarItem active={activeTab === "referral"} icon="👥">
             Referral
           </SidebarItem>
         </Link>
-        
+
         <Link href="/trade/docs" passHref>
-          <SidebarItem
-            active={activeTab === 'docs'}
-            icon="📄"
-          >
+          <SidebarItem active={activeTab === "docs"} icon="📄">
             Docs
           </SidebarItem>
         </Link>

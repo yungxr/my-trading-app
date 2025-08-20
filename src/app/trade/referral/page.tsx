@@ -7,10 +7,7 @@ export default function ReferralPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Открываем реферальную страницу в новом окне
     const newWindow = window.open("/referral", "_blank");
-
-    // Если новое окно заблокировано (например, popup blocker), делаем редирект
     if (
       !newWindow ||
       newWindow.closed ||
@@ -18,7 +15,6 @@ export default function ReferralPage() {
     ) {
       router.push("/referral");
     } else {
-      // Возвращаем пользователя на предыдущую страницу
       router.back();
     }
   }, [router]);

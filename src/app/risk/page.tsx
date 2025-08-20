@@ -38,7 +38,6 @@ export default function RiskPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Градиентный фон */}
       <div className="fixed inset-0 -z-50">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1c0a1a] via-[#2d0b2b] to-[#3d0f3a] opacity-95" />
         <div className="absolute inset-0 bg-[url('/images/grid-pattern-dark.svg')] opacity-30" />

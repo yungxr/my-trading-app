@@ -6,7 +6,6 @@ import { ShieldIcon, FileTextIcon, AlertTriangleIcon } from "lucide-react";
 export default function TermsPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Градиентный фон */}
       <div className="fixed inset-0 -z-50">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155] opacity-95" />
         <div className="absolute inset-0 bg-[url('/images/grid-pattern-dark.svg')] opacity-20" />
