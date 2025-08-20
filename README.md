@@ -2,6 +2,7 @@
 
 1. npm install
 2. npm run dev
+ну и по ссылке http://localhost:3000/
 ;
 
 это если какие-то траблы:
